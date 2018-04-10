@@ -3,7 +3,7 @@
 
 // but you don't so you're going to write it from scratch:
 
-var test = ['hi']
+var test = {a:'apple'}
 var stringifyJSON = function(obj) {
   if (Array.isArray(obj) === true){ // your code goes here
   	var arrayCopy = obj.slice()
@@ -15,7 +15,6 @@ var stringifyJSON = function(obj) {
 	  		var arrayItem = arrayCopy.shift()
 	  		if (typeof arrayItem === 'string' || Array.isArray(arrayItem) === true){
 	  			arrayItem = stringifyJSON(arrayItem)
-	  			//console.log(arrayItem)
 	  		}
 	  		arrayResult += arrayItem + ','
 	  		arrayRecursive()
@@ -23,7 +22,6 @@ var stringifyJSON = function(obj) {
 	  		var arrayItem2 = arrayCopy.shift()
 	  		if (typeof arrayItem2 === 'string' || Array.isArray(arrayItem2) === true){
 	  			arrayItem2 = stringifyJSON(arrayItem2)
-	  			//console.log(arrayItem2)
 	  		}
 	  		arrayResult += arrayItem2
 	  		arrayRecursive()
@@ -32,9 +30,29 @@ var stringifyJSON = function(obj) {
 	arrayRecursive()
   	return arrayResult + ']'
   }else if (typeof obj === 'object' && obj !== null){
-  	var objectCopy = {}
+  	var objectCopy = Object.assign(obj)
   	var objectResult = '{'
-  	return;
+  	var objectKeys = []
+	for (var key in objectCopy){
+	  	objectKeys.push(key);
+	}
+  	function objectRecursive(){
+	  	if (objectKeys.length === 0){
+	  		objectResult += '}'
+	  		return;
+	  	}else if (objectKeys.length > 1){
+	  		var keyCopy = objectKeys.shift();
+	  		var objectValue = stringifyJSON(objectCopy[keyCopy]);
+	  		objectResult += '"'+keyCopy+'":' + objectValue + ',';
+	  	}else if (objectKeys.length === 1){
+	  		var keyCopy = objectKeys.shift();
+	  		var objectValue = stringifyJSON(objectCopy[keyCopy]);
+	  		objectResult += '"'+keyCopy+'":'+objectValue
+	  	}
+	  	objectRecursive()
+  	}
+  	objectRecursive()
+  	return objectResult;
   }else if (typeof obj === 'string'){
   	return '"'+obj+'"';
   }else if (typeof obj === 'number'){
