@@ -6,9 +6,9 @@
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className) {
   var matchingElements = []
-  for (className)
+  //for (className)
   var dividedHTMLString = className.slice().split(' ')
-  if (dividedHTMLString )
+  //if (dividedHTMLString )
   	//push matching items to matchingElements array	
   // your code here
   //return matchingElements

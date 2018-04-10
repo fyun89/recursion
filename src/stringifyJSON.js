@@ -3,23 +3,31 @@
 
 // but you don't so you're going to write it from scratch:
 
+var test = [1,2,3,4]
 var stringifyJSON = function(obj) {
   if (Array.isArray(obj) === true){ // your code goes here
+  	var arrayCopy = obj.slice()
   	var arrayResult = '['
-  	//console.log(obj[1])
-  	for (var i = 0; i < obj.length; i++){
-  		if (i < obj.length-1){
-  			//console.log(obj[i].toString())
-  			arrayResult += obj[i].toString() + ', '
-  		}else if (i === obj.length - 1){
-  			arrayResult += obj[i].toString()
-  		} 
-  	}
-  	console.log(arrayResult+']')
+  	function arrayRecursive(){
+	  	if (arrayCopy.length === 0){
+	  		return;
+	  	}else if (arrayCopy.length > 1){
+	  		arrayResult += arrayCopy.shift() + ', '
+	  		arrayRecursive()
+	  	}else if (arrayCopy.length === 1){
+	  		arrayResult += arrayCopy.shift()
+	  		arrayRecursive()
+	  	}
+	}
+	arrayRecursive()
   	return arrayResult + ']'
   }else if (typeof obj === object){
-
+  	var objectCopy = {}
+  	var objectResult = '{'
+  	return;
   }else{
   	return toString(obj)
   }
 };
+
+console.log(typeof stringifyJSON(test))
