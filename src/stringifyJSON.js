@@ -13,18 +13,18 @@ var stringifyJSON = function(obj) {
 	  		return;
 	  	}else if (arrayCopy.length > 1){
 	  		var arrayItem = arrayCopy.shift()
-	  		if (typeof arrayItem === 'string' || Array.isArray(arrayItem) === true){
-	  			arrayItem = stringifyJSON(arrayItem)
+	  		if (typeof arrayItem === 'string' || Array.isArray(arrayItem) === true || typeof arrayItem === 'object'){
+	  			arrayItem = stringifyJSON(arrayItem);
 	  		}
-	  		arrayResult += arrayItem + ','
-	  		arrayRecursive()
+	  		arrayResult += arrayItem + ',';
+	  		arrayRecursive();
 	  	}else if (arrayCopy.length === 1){
 	  		var arrayItem2 = arrayCopy.shift()
-	  		if (typeof arrayItem2 === 'string' || Array.isArray(arrayItem2) === true){
-	  			arrayItem2 = stringifyJSON(arrayItem2)
+	  		if (typeof arrayItem2 === 'string' || Array.isArray(arrayItem2) === true || typeof arrayItem2 === 'object'){
+	  			arrayItem2 = stringifyJSON(arrayItem2);
 	  		}
-	  		arrayResult += arrayItem2
-	  		arrayRecursive()
+	  		arrayResult += arrayItem2;
+	  		arrayRecursive();
 	  	}
 	}
 	arrayRecursive()
@@ -42,12 +42,16 @@ var stringifyJSON = function(obj) {
 	  		return;
 	  	}else if (objectKeys.length > 1){
 	  		var keyCopy = objectKeys.shift();
-	  		var objectValue = stringifyJSON(objectCopy[keyCopy]);
-	  		objectResult += '"'+keyCopy+'":' + objectValue + ',';
+	  		if (typeof objectCopy[keyCopy] !== 'function' && typeof objectCopy[keyCopy] !== 'undefined'){
+	  			var objectValue = stringifyJSON(objectCopy[keyCopy]);
+	  			objectResult += '"'+keyCopy+'":' + objectValue + ',';
+	  		}
 	  	}else if (objectKeys.length === 1){
 	  		var keyCopy = objectKeys.shift();
-	  		var objectValue = stringifyJSON(objectCopy[keyCopy]);
-	  		objectResult += '"'+keyCopy+'":'+objectValue
+	  		if (typeof objectCopy[keyCopy] !== 'function' && typeof objectCopy[keyCopy] !== 'undefined'){
+	  			var objectValue = stringifyJSON(objectCopy[keyCopy]);
+	  			objectResult += '"'+keyCopy+'":'+objectValue
+	  		}
 	  	}
 	  	objectRecursive()
   	}
