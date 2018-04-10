@@ -3,7 +3,7 @@
 
 // but you don't so you're going to write it from scratch:
 
-var test = [1,2,3,4]
+var test = ['hi']
 var stringifyJSON = function(obj) {
   if (Array.isArray(obj) === true){ // your code goes here
   	var arrayCopy = obj.slice()
@@ -12,22 +12,39 @@ var stringifyJSON = function(obj) {
 	  	if (arrayCopy.length === 0){
 	  		return;
 	  	}else if (arrayCopy.length > 1){
-	  		arrayResult += arrayCopy.shift() + ', '
+	  		var arrayItem = arrayCopy.shift()
+	  		if (typeof arrayItem === 'string' || Array.isArray(arrayItem) === true){
+	  			arrayItem = stringifyJSON(arrayItem)
+	  			//console.log(arrayItem)
+	  		}
+	  		arrayResult += arrayItem + ','
 	  		arrayRecursive()
 	  	}else if (arrayCopy.length === 1){
-	  		arrayResult += arrayCopy.shift()
+	  		var arrayItem2 = arrayCopy.shift()
+	  		if (typeof arrayItem2 === 'string' || Array.isArray(arrayItem2) === true){
+	  			arrayItem2 = stringifyJSON(arrayItem2)
+	  			//console.log(arrayItem2)
+	  		}
+	  		arrayResult += arrayItem2
 	  		arrayRecursive()
 	  	}
 	}
 	arrayRecursive()
   	return arrayResult + ']'
-  }else if (typeof obj === object){
+  }else if (typeof obj === 'object' && obj !== null){
   	var objectCopy = {}
   	var objectResult = '{'
   	return;
-  }else{
-  	return toString(obj)
+  }else if (typeof obj === 'string'){
+  	return '"'+obj+'"';
+  }else if (typeof obj === 'number'){
+  	return obj.toString();
+  }else if (typeof obj === 'boolean'){
+  	return obj.toString();
+  }else if (obj === null && typeof obj === 'object'){
+  	return 'null';
   }
 };
+//console.log(typeof testtest)
 
-console.log(typeof stringifyJSON(test))
+//console.log(stringifyJSON(null))
