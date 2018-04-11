@@ -4,12 +4,20 @@
 // };
 
 // But instead we're going to implement it from scratch:
-var getElementsByClassName = function(className) {
-  var matchingElements = []
-  //for (className)
-  var dividedHTMLString = className.slice().split(' ')
-  //if (dividedHTMLString )
-  	//push matching items to matchingElements array	
-  // your code here
-  //return matchingElements
+
+var getElementsByClassName = function (className){
+	var resultArray = []
+	//console.log(document.body.classList)
+	//console.log('test: ' + document.body.children[0])
+	var prefix = document.body //points to html <body>
+  	function recursion (node) {
+    	if(node.classList.contains(className)) { //if the line contains className, adds to resultArray
+    	  resultArray.push(node);
+    	}
+    	for(var i = 0; i < node.children.length; i++) { //depending on how many nodes there are, it would look into "children" of that node
+    	  recursion(node.children[i]); //performs recursion of that child node
+    	}
+  	};
+  	recursion(prefix);
+ 	return resultArray;
 };
